@@ -81,6 +81,9 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get('/status', (req,res) => {
+  res.json({ message: 'Server is running'});
+});
 
 //Serve Registration form
 app.get('/register', (req, res) => {
