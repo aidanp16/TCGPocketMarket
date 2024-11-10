@@ -88,6 +88,6 @@ app.get('/register', (req, res) => {
 });
 
 //Serve the homepage
-app.get('/home.html', (req, res) => {
-  res.sendFile(__dirname + '/public/home.html');
+app.get('/home', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
 });
