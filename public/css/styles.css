@@ -15,7 +15,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background-color: #333;
+    background-color: grey;
     color: white;
 }
 
@@ -162,4 +162,22 @@ body {
 
 .auth-page .switch-auth a:hover {
     text-decoration: underline;
+}
+
+/* Home Button Styling */
+.home-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: white;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.home-button:hover {
+    background-color: #0056b3;
 }
