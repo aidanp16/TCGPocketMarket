@@ -28,4 +28,4 @@ jobs:
 
       - name: Deploy to SiteGround
         run: |
-          rsync -avz --delete-after ./public/ siteground:/home/u1747-mk9mfklns66n/public_html/
+          rsync -avz -e "ssh -p 18765" --delete-after ./public/ siteground:/home/u1747-mk9mfklns66n/public_html/
