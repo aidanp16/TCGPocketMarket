@@ -89,30 +89,41 @@ app.post('/login', async (req, res) => {
 // Update user profile
 app.post('/update-profile', async (req, res) => {
   try {
-    const { username, email, phone, password } = req.body;
+    const { currentUsername, newUsername, email, phone, password } = req.body;
 
-    // Find the user by username
-    const user = await User.findOne({ username });
+    // Find the user by the current username
+    const user = await User.findOne({ username: currentUsername });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update fields
+    // Check if the new username already exists (and is different from the current one)
+    if (newUsername !== currentUsername) {
+      const existingUser = await User.findOne({ username: newUsername });
+      if (existingUser) {
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+      user.username = newUsername; // Update username if unique
+    }
+
+    // Update other fields
     user.email = email || user.email;
     user.phone = phone || user.phone;
 
-    // Update password if provided
+    // Update password if provided (hash the password before saving)
     if (password) {
       user.password = await bcrypt.hash(password, 10);
     }
 
-    // Save updated user
+    // Save updated user to the database
     await user.save();
     res.json({ message: 'Profile updated successfully' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Error updating profile', error });
   }
 });
+
 
 app.get('/get-profile', async (req, res) => {
   try {
