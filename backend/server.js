@@ -24,7 +24,10 @@ const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true},
   email: { type: String, required: true },
-  phone: { type: String }
+  phone: { type: String },
+  createdAt: { type: Date, default: Date.now }, // for member since
+  lastLogin: { type: Date },
+  subscriptionType: { type: String, default: 'Free' }
 });
 const User = mongoose.model('User', userSchema);
 
@@ -110,6 +113,31 @@ app.post('/update-profile', async (req, res) => {
     res.status(500).json({ message: 'Error updating profile', error });
   }
 });
+
+app.get('/get-profile', async (req, res) => {
+  try {
+      // Assume we have a way to identify the user, e.g., via a session or token
+      const username = req.query.username; // Use req.query or a more secure method
+
+      const user = await User.findOne({ username });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json({
+          username: user.username,
+          email: user.email,
+          phone: user.phone,
+          memberSince: user.createdAt,  // assuming `createdAt` is available
+          lastLogin: user.lastLogin,    // assuming `lastLogin` is stored
+          subscriptionType: user.subscriptionType || 'Free' // assuming this field exists
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error retrieving profile data' });
+  }
+});
+
 
 app.get('/status', (req,res) => {
   res.json({ message: 'Server is running'});
