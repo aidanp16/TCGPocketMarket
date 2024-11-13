@@ -23,7 +23,7 @@ mongoose.connect('mongodb+srv://aidanp_16:FigW5XXOzObUYFVS@tcgpocketcluster.jt9m
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true},
-  email: { type: String, required: true },
+  email: { type: String },
   phone: { type: String },
   createdAt: { type: Date, default: Date.now }, // for member since
   lastLogin: { type: Date },
