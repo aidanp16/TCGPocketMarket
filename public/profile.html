@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+</head>
+<body class = "profile-page">
+    <h1>Profile Page</h1>
+
+    <!-- Editable User Information Section -->
+    <div class="profile-section">
+        <h2>Personal Information</h2>
+        <form id="profile-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="[current username]" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter new password">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="[current email]" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" value="[current phone number]" pattern="[0-9]{10}" placeholder="1234567890">
+
+            <button type="submit" class="auth-button">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Non-Editable Account Details Section -->
+    <div class="profile-section">
+        <h2>Account Details</h2>
+        <p><strong>Member Since:</strong> <span id="member-since">[join date]</span></p>
+        <p><strong>Last Login:</strong> <span id="last-login">[last login date]</span></p>
+        <p><strong>Subscription Type:</strong> <span id="subscription-type">[subscription type]</span></p>
+    </div>
+
+    <!-- Logout Button -->
+    <button id="logout-btn" class="auth-button">Logout</button>
+
+    <script src="logout.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

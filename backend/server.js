@@ -80,7 +80,7 @@ app.post('/login', async (req, res) => {
       return res.status(403).json({ message: 'Invalid password'});
     }
 
-    res.json({message: 'Login successful', redirect: '/index.html'});
+    res.json({message: 'Login successful', redirect: '/index.html', username: user.username });
   } catch(error) {
     res.status(500).json({ message: "Error logging in", error});
   }
