@@ -22,7 +22,9 @@ mongoose.connect('mongodb+srv://aidanp_16:FigW5XXOzObUYFVS@tcgpocketcluster.jt9m
 // User schema and model
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
-  password: { type: String, required: true}
+  password: { type: String, required: true},
+  email: { type: String, required: true },
+  phone: { type: String }
 });
 const User = mongoose.model('User', userSchema);
 
@@ -36,7 +38,7 @@ app.listen(PORT, () => {
 app.post('/register', async (req, res) => {
   console.log(req.body);
   try{   
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
 
     //Check if the user already exists
     const existingUser = await User.findOne({ username });
@@ -47,7 +49,7 @@ app.post('/register', async (req, res) => {
     //Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({ username, password: hashedPassword, email });
     await newUser.save();
 
     res.status(201).json({ message: 'User registered successfully '});
@@ -78,6 +80,34 @@ app.post('/login', async (req, res) => {
     res.json({message: 'Login successful', redirect: '/index.html'});
   } catch(error) {
     res.status(500).json({ message: "Error logging in", error});
+  }
+});
+
+// Update user profile
+app.post('/update-profile', async (req, res) => {
+  try {
+    const { username, email, phone, password } = req.body;
+
+    // Find the user by username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update fields
+    user.email = email || user.email;
+    user.phone = phone || user.phone;
+
+    // Update password if provided
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
+    }
+
+    // Save updated user
+    await user.save();
+    res.json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating profile', error });
   }
 });
 
