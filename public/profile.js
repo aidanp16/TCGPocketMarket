@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Fetch user profile data from the server
-        const response = await fetch('https://tcgpocketmarket.onrender.com/get-profile', {
+        const username = localStorage.getItem('username');
+        const response = await fetch(`https://tcgpocketmarket.onrender.com/get-profile?username=${username}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

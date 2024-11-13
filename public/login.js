@@ -1,4 +1,5 @@
 //Handle Login
+//Handle Login
 document.addEventListener('DOMContentLoaded', () => {
     console.log("script.js loaded");
     document.getElementById('loginForm').onsubmit = async (e) => {
@@ -18,8 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             alert(data.message);
 
-            if (data.redirect) {
+            if (response.ok) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', data.username);
                 window.location.href = data.redirect;
+            } else{
+                alert(data.message);
             }
         }catch (error){
             alert('Error logging in');
