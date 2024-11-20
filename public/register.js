@@ -16,8 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const data = await response.json();
-            alert(data.message);
-        } catch (error){
+            if (response.ok) {
+                alert(data.message);
+
+                // Redirect to home page after successful registration
+                window.location.href = 'login.html';
+            } else {
+                alert(data.message); // Show an error message if registration failed
+            }
+        } catch (error) {
+            console.error('Error:', error);
             alert('Error registering user');
         }
     };
