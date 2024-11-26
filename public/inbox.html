@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox</title>
+    <link rel="stylesheet" href="css/inbox.css?v=1.0">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="home-button">Home</a>
+        <h1>Inbox</h1>
+        <a href="forum.html" class="back-to-forum-button">Back to Forum</a>
+    </header>
+    <main class="inbox-container">
+        <!-- Sidebar for Messages List -->
+        <aside class="messages-list">
+            <h2>Messages</h2>
+            <ul>
+                <li class="message-item" data-id="1">
+                    <h3>Trade Request: Charizard</h3>
+                    <p>From: Ash Ketchum</p>
+                    <p class="preview">Hi, I'm interested in trading for your Charizard...</p>
+                </li>
+                <li class="message-item" data-id="2">
+                    <h3>Trade Confirmation: Pikachu</h3>
+                    <p>From: Misty</p>
+                    <p class="preview">Thanks for agreeing to trade your Pikachu...</p>
+                </li>
+                <li class="message-item" data-id="3">
+                    <h3>New Trade Offer</h3>
+                    <p>From: Brock</p>
+                    <p class="preview">I have a Gyarados card you might be interested in...</p>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content for Viewing Selected Message -->
+        <section class="message-view">
+            <h2>Message Content</h2>
+            <div class="message-content">
+                <p>Select a message to view its content.</p>
+            </div>
+        </section>
+    </main>
+    <script>
+        // Example JavaScript for handling message selection
+        const messages = document.querySelectorAll('.message-item');
+        const messageView = document.querySelector('.message-content');
+
+        messages.forEach(message => {
+            message.addEventListener('click', () => {
+                const messageId = message.getAttribute('data-id');
+                // Placeholder content for messages
+                const messageData = {
+                    1: {
+                        subject: "Trade Request: Charizard",
+                        from: "Ash Ketchum",
+                        body: "Hi, I'm interested in trading for your Charizard. I have a Pikachu, Gyarados, and Dragonite available. Let me know if you're interested!"
+                    },
+                    2: {
+                        subject: "Trade Confirmation: Pikachu",
+                        from: "Misty",
+                        body: "Thanks for agreeing to trade your Pikachu for my Psyduck. I’ll send over the details for the swap."
+                    },
+                    3: {
+                        subject: "New Trade Offer",
+                        from: "Brock",
+                        body: "I have a Gyarados card you might be interested in. I’m looking for a Charizard or Dragonite in return."
+                    }
+                };
+
+                const selectedMessage = messageData[messageId];
+                messageView.innerHTML = `
+                    <h3>${selectedMessage.subject}</h3>
+                    <p><strong>From:</strong> ${selectedMessage.from}</p>
+                    <p>${selectedMessage.body}</p>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
