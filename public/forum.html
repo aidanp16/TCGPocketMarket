@@ -8,33 +8,20 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="home-button">Home</a>
-        <h1>Trade Forum</h1>
+    <a href="index.html" class="home-button">Home</a>
+    <h1>Trade Forum</h1>
+    <div>
         <button id="filter-toggle" class="filter-button">&#9776; Filters</button>
         <a href="inbox.html" class="inbox-button">Inbox</a>
-    </header>
-    <aside id="filter-panel" class="filter-panel">
-        <button id="close-filters" class="close-button">&times;</button>
-        <h2>Filters</h2>
-        <form id="filters">
-            <label for="search">Search</label>
-            <input type="text" id="search" placeholder="Search for a card...">
-
-            <label for="rarity">Rarity</label>
-            <select id="rarity">
-                <option value="all">All</option>
-                <option value="common">Common</option>
-                <option value="rare">Rare</option>
-            </select>
-
-            <label for="region">Region</label>
-            <select id="region">
-                <option value="all">All</option>
-                <option value="kanto">Kanto</option>
-                <option value="johto">Johto</option>
-            </select>
-        </form>
-    </aside>
+    </div>
+</header>
+<aside id="filter-panel" class="filter-panel">
+    <button id="close-filters" class="close-button">&times;</button>
+    <h2>Filters</h2>
+    <form id="filters">
+        <!-- Filter Form Fields -->
+    </form>
+</aside>
     <main>
         <section id="browse" class="tab-content active">
             <h2>Browse Trades</h2>
@@ -45,19 +32,6 @@
             </div>
         </section>
     </main>
-    <script>
-        // JavaScript to toggle filter panel
-        const filterToggle = document.getElementById('filter-toggle');
-        const filterPanel = document.getElementById('filter-panel');
-        const closeFilters = document.getElementById('close-filters');
-
-        filterToggle.addEventListener('click', () => {
-            filterPanel.classList.add('active');
-        });
-
-        closeFilters.addEventListener('click', () => {
-            filterPanel.classList.remove('active');
-        });
-    </script>
+    <script src="filters.js"></script>
 </body>
 </html>

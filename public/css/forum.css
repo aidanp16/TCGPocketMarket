@@ -16,6 +16,8 @@ header {
 
 header h1 {
     margin: 0;
+    flex-grow: 1; /* Push title to the center */
+    text-align: center;
 }
 
 .home-button {
@@ -31,6 +33,7 @@ header h1 {
     background-color: #333;
 }
 
+/* Filters Button */
 .filter-button {
     background-color: white;
     color: #007bff;
@@ -46,6 +49,7 @@ header h1 {
     background-color: #f0f0f0;
 }
 
+/* Inbox Button */
 .inbox-button {
     color: white;
     background-color: #28a745;
@@ -53,6 +57,7 @@ header h1 {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
+    margin-left: 10px; /* Add spacing between Filters and Inbox buttons */
 }
 
 .inbox-button:hover {
@@ -63,19 +68,26 @@ header h1 {
 .filter-panel {
     position: fixed;
     top: 0;
-    left: -300px; /* Hidden by default */
+    left: -300px; /* Hidden by default, off-screen */
     width: 300px;
     height: 100%;
     background-color: #f4f4f9;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
     padding: 20px;
-    transition: left 0.3s ease;
+    transition: left 0.3s ease, opacity 0.3s ease; /* Smooth transition for sliding and fading */
     z-index: 1000;
+    visibility: hidden; /* Hidden by default */
+    opacity: 0; /* Invisible */
+    pointer-events: none; /* Non-interactive */
 }
 
 .filter-panel.active {
-    left: 0; /* Slide in when active */
+    left: 0; /* Slide into view */
+    visibility: visible; /* Make visible */
+    opacity: 1; /* Fully opaque */
+    pointer-events: auto; /* Enable interaction */
 }
+
 
 .close-button {
     position: absolute;
