@@ -101,20 +101,18 @@ app.get('/threads', async (req, res) => {
       {
         $group: {
           _id: {
-            participants: {
-              $setUnion: ["$sender", "$recipient"], // Group by unique sender-recipient pairs
-            },
+            participants: { $setUnion: ["$sender", "$recipient"] }, // Create a unique set of participants
           },
-          lastMessage: { $last: "$$ROOT" }, // Get the last message in each thread
+          lastMessage: { $last: "$$ROOT" }, // Get the latest message in each thread
         },
       },
     ]);
 
-    // Format the data for the frontend
+    // Format the threads for the frontend
     const formattedThreads = threads.map((thread) => {
       const participants = thread._id.participants.filter((p) => p !== username); // Remove the current user
       return {
-        username: participants[0],
+        username: participants[0], // The other participant
         lastMessage: thread.lastMessage.content,
       };
     });
@@ -125,6 +123,7 @@ app.get('/threads', async (req, res) => {
     res.status(500).json({ message: 'Error fetching threads' });
   }
 });
+
 
 // API endpoint to fetch conversation logs between two users
 app.get('/conversation', async (req, res) => {

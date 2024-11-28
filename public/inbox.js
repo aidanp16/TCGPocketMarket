@@ -13,7 +13,7 @@ socket.on('disconnect', () => {
   console.log('Disconnected from WebSocket server');
 });
 
-let currentUser = "Ash"; // Replace with logged-in user
+let currentUser = sessionStorage.getItem("username") || "DefaultUser"; // Replace with real logic
 let recipientUser = ""; // Dynamically set when validated
 
 // Validate the recipient's username
