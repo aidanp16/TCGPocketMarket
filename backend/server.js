@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app); // Create an HTTP server for Express
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow all origins for simplicity; restrict in production
+    origin: "https://tcgpocketmarket.onrender.com", // Allow all origins for simplicity; restrict in production
     methods: ["GET", "POST"],
   },
 });
