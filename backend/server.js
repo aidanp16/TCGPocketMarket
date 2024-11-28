@@ -85,6 +85,66 @@ app.get('/validate-username', async (req, res) => {
   }
 });
 
+app.get('/threads', async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const threads = await Message.aggregate([
+      {
+        $match: {
+          $or: [
+            { sender: username },
+            { recipient: username },
+          ],
+        },
+      },
+      {
+        $group: {
+          _id: {
+            participants: {
+              $setUnion: ["$sender", "$recipient"], // Group by unique sender-recipient pairs
+            },
+          },
+          lastMessage: { $last: "$$ROOT" }, // Get the last message in each thread
+        },
+      },
+    ]);
+
+    // Format the data for the frontend
+    const formattedThreads = threads.map((thread) => {
+      const participants = thread._id.participants.filter((p) => p !== username); // Remove the current user
+      return {
+        username: participants[0],
+        lastMessage: thread.lastMessage.content,
+      };
+    });
+
+    res.json(formattedThreads);
+  } catch (err) {
+    console.error('Error fetching threads:', err);
+    res.status(500).json({ message: 'Error fetching threads' });
+  }
+});
+
+// API endpoint to fetch conversation logs between two users
+app.get('/conversation', async (req, res) => {
+  const { user1, user2 } = req.query;
+
+  try {
+    const messages = await Message.find({
+      $or: [
+        { sender: user1, recipient: user2 },
+        { sender: user2, recipient: user1 },
+      ],
+    }).sort('timestamp');
+
+    res.json(messages);
+  } catch (err) {
+    console.error('Error fetching conversation:', err);
+    res.status(500).json({ message: 'Error fetching conversation' });
+  }
+});
+
 // WebSocket handling
 io.on('connection', (socket) => {
   console.log(`New WebSocket connection: ${socket.id}`);
