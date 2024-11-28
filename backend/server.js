@@ -68,6 +68,24 @@ app.get('/messages', async (req, res) => {
   }
 });
 
+// API endpoint to check if a user exists by username
+app.get('/validate-username', async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const user = await User.findOne({ username });
+    if (user) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  } catch (err) {
+    console.error('Error validating username:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // WebSocket handling
 io.on('connection', (socket) => {
   console.log(`New WebSocket connection: ${socket.id}`);

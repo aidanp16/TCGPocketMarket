@@ -1,25 +1,46 @@
 const socket = io(); // Connect to the WebSocket server
 
-// Simulated current and recipient users (replace with dynamic logic)
-const currentUser = "Ash"; // Replace with logged-in user
-const recipientUser = "Misty"; // Replace dynamically
+let currentUser = "Ash"; // Replace with logged-in user
+let recipientUser = ""; // Dynamically set when validated
 
-// Fetch messages between the current user and recipient
-fetch(`/messages?user1=${currentUser}&user2=${recipientUser}`)
-  .then((res) => res.json())
-  .then((messages) => {
-    const chatWindow = document.getElementById("chatWindow");
-    messages.forEach((msg) => {
-      const messageElement = document.createElement("div");
-      messageElement.textContent = `${msg.sender}: ${msg.content}`;
-      chatWindow.appendChild(messageElement);
+// Validate the recipient's username
+document.getElementById('validateRecipient').addEventListener('click', () => {
+  const usernameInput = document.getElementById('recipientUsername').value.trim();
+  const validationMessage = document.getElementById('validationMessage');
+
+  if (!usernameInput) {
+    validationMessage.textContent = "Please enter a username.";
+    return;
+  }
+
+  fetch(`/validate-username?username=${usernameInput}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.exists) {
+        validationMessage.style.color = "green";
+        validationMessage.textContent = `User "${usernameInput}" is valid.`;
+        recipientUser = usernameInput; // Set the recipient
+      } else {
+        validationMessage.style.color = "red";
+        validationMessage.textContent = `No user found with the username "${usernameInput}".`;
+        recipientUser = ""; // Reset recipient
+      }
+    })
+    .catch((err) => {
+      console.error("Error validating username:", err);
+      validationMessage.textContent = "An error occurred. Please try again.";
     });
-  });
+});
 
-// Send a new message
+// Send a message
 document.getElementById("sendMessage").addEventListener("click", () => {
   const messageInput = document.getElementById("messageInput");
   const content = messageInput.value.trim();
+
+  if (!recipientUser) {
+    alert("Please validate a recipient username before sending a message.");
+    return;
+  }
 
   if (content) {
     const message = {

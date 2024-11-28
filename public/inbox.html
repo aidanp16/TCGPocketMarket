@@ -21,10 +21,22 @@
             <ul id="messages"></ul>
         </aside>
 
+
         <!-- Message Viewer -->
         <section class="message-view">
             <h2>Chat</h2>
+
+            <!-- Recipient Input Section -->
+            <div class="recipient-input">
+                <input type="text" id="recipientUsername" placeholder="Enter recipient username" />
+                <button id="validateRecipient">Validate</button>
+                <p id="validationMessage" style="color: red;"></p>
+            </div>
+
+            <!-- Chat Window -->
             <div id="chatWindow" class="message-content"></div>
+
+            <!-- Message Input Section -->
             <div class="message-input">
                 <input type="text" id="messageInput" placeholder="Type your message..." />
                 <button id="sendMessage">Send</button>
