@@ -1,4 +1,4 @@
-const socket = io(); // Connect to the WebSocket server
+const socket = io('https://tcgpocketmarket.onrender.com'); // Connect to the WebSocket server
 
 let currentUser = "Ash"; // Replace with logged-in user
 let recipientUser = ""; // Dynamically set when validated
