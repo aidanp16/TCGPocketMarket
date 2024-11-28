@@ -112,10 +112,8 @@ io.on('connection', (socket) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3000; // Use Render's assigned port or default to 3000
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 //Register a new user
 app.post('/register', async (req, res) => {
