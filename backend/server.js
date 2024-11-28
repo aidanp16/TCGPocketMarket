@@ -31,7 +31,7 @@ mongoose.connect('mongodb+srv://aidanp_16:FigW5XXOzObUYFVS@tcgpocketcluster.jt9m
 // User schema and model
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
-  password: { type: String, required: true},
+  password: { type: String, required: true },
   email: { type: String },
   phone: { type: String },
   createdAt: { type: Date, default: Date.now }, // for member since
@@ -85,7 +85,6 @@ app.get('/validate-username', async (req, res) => {
   }
 });
 
-
 // WebSocket handling
 io.on('connection', (socket) => {
   console.log(`New WebSocket connection: ${socket.id}`);
@@ -94,15 +93,26 @@ io.on('connection', (socket) => {
     const { sender, recipient, content } = data;
 
     try {
+      // Check if the recipient exists
+      const recipientUser = await User.findOne({ username: recipient });
+      if (!recipientUser) {
+        socket.emit('errorMessage', `User "${recipient}" does not exist.`);
+        return;
+      }
+
       // Save the message to the database
       const newMessage = new Message({ sender, recipient, content });
       await newMessage.save();
 
+      // Notify the sender of successful delivery
+      socket.emit('messageSent', { message: newMessage });
+
       // Broadcast the message to the recipient
-      io.emit('receiveMessage', newMessage); // Send to all connected clients
+      io.emit('receiveMessage', newMessage);
       console.log('Message sent:', newMessage);
     } catch (err) {
       console.error('Error saving message:', err);
+      socket.emit('errorMessage', 'An error occurred while sending the message.');
     }
   });
 
