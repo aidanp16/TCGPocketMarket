@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        try{
+        try {
             const response = await fetch('https://tcgpocketmarket.onrender.com/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type' : 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body : JSON.stringify({ username, password })
+                body: JSON.stringify({ username, password })
             });
 
             const data = await response.json();
@@ -20,17 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 console.log('Response data:', data);
-                localStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('isLoggedIn', 'true'); // Use sessionStorage
                 console.log('Username from server:', data.username);
-                localStorage.setItem('username', data.username);
-                console.log('Saved username:', localStorage.getItem('username')); 
+                sessionStorage.setItem('username', data.username); // Use sessionStorage
+                console.log('Saved username:', sessionStorage.getItem('username'));
                 setTimeout(() => {
                     window.location.href = data.redirect;
                 }, 500);
-            } else{
+            } else {
                 alert(data.message);
             }
-        }catch (error){
+        } catch (error) {
             alert('Error logging in');
         }
     };

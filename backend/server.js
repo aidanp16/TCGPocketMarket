@@ -89,40 +89,46 @@ app.get('/threads', async (req, res) => {
   const { username } = req.query;
 
   try {
-    const threads = await Message.aggregate([
-      {
-        $match: {
-          $or: [
-            { sender: username },
-            { recipient: username },
-          ],
-        },
-      },
-      {
-        $group: {
-          _id: {
-            participants: { $setUnion: ["$sender", "$recipient"] }, // Create a unique set of participants
+      const threads = await Message.aggregate([
+          {
+              $match: {
+                  $or: [
+                      { sender: username },
+                      { recipient: username },
+                  ],
+              },
           },
-          lastMessage: { $last: "$$ROOT" }, // Get the latest message in each thread
-        },
-      },
-    ]);
+          {
+              $group: {
+                  _id: "$_id",
+                  lastMessage: { $last: "$$ROOT" },
+              },
+          },
+      ]);
 
-    // Format the threads for the frontend
-    const formattedThreads = threads.map((thread) => {
-      const participants = thread._id.participants.filter((p) => p !== username); // Remove the current user
-      return {
-        username: participants[0], // The other participant
-        lastMessage: thread.lastMessage.content,
-      };
-    });
+      if (!threads || threads.length === 0) {
+          return res.json([]); // Return an empty array if no threads are found
+      }
 
-    res.json(formattedThreads);
+      // Format threads for the frontend
+      const formattedThreads = threads.map((thread) => {
+          const otherUser = thread.lastMessage.sender === username
+              ? thread.lastMessage.recipient
+              : thread.lastMessage.sender;
+
+          return {
+              username: otherUser,
+              lastMessage: thread.lastMessage.content,
+          };
+      });
+
+      res.json(formattedThreads);
   } catch (err) {
-    console.error('Error fetching threads:', err);
-    res.status(500).json({ message: 'Error fetching threads' });
+      console.error('Error fetching threads:', err);
+      res.status(500).json({ message: 'Error fetching threads' });
   }
 });
+
 
 
 // API endpoint to fetch conversation logs between two users

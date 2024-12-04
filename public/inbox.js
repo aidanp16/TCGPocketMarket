@@ -50,6 +50,11 @@ function loadThreads() {
   fetch(`https://tcgpocketmarket.onrender.com/threads?username=${currentUser}`)
     .then((res) => res.json())
     .then((threads) => {
+      if (!Array.isArray(threads)) {
+            console.error("Invalid threads response:", threads);
+            return;
+        }
+      
       const messagesList = document.getElementById("messages");
       messagesList.innerHTML = ""; // Clear existing threads
 
@@ -109,10 +114,10 @@ document.getElementById("sendMessage").addEventListener("click", () => {
     socket.emit("sendMessage", message); // Send message to the server
 
     // Add the message to the chat window locally
-    const chatWindow = document.getElementById("chatWindow");
-    const messageElement = document.createElement("div");
-    messageElement.textContent = `You: ${content}`;
-    chatWindow.appendChild(messageElement);
+    //const chatWindow = document.getElementById("chatWindow");
+    //const messageElement = document.createElement("div");
+    //messageElement.textContent = `You: ${content}`;
+    //chatWindow.appendChild(messageElement);
 
     messageInput.value = ""; // Clear the input field
   }
@@ -126,13 +131,17 @@ socket.on("receiveMessage", (message) => {
   loadThreads();
 
   // Update the chat window if the current thread matches
-  if (message.sender === recipientUser || message.recipient === recipientUser) {
+  if (
+    (message.sender === currentUser && message.recipient === recipientUser) ||
+    (message.sender === recipientUser && message.recipient === currentUser)
+  ) {
     const chatWindow = document.getElementById("chatWindow");
     const messageElement = document.createElement("div");
-    messageElement.textContent = `${message.sender}: ${message.content}`;
+    messageElement.textContent = `${message.sender === currentUser ? "You" : message.sender}: ${message.content}`;
     chatWindow.appendChild(messageElement);
   }
 });
+
 
 // Load threads on page load
 window.onload = () => {
