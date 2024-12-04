@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Fetch user profile data from the server
-        const currentUsername = localStorage.getItem('username');
+        const currentUsername = sessionStorage.getItem('username');
         const response = await fetch(`https://tcgpocketmarket.onrender.com/get-profile?username=${currentUsername}`, {
             method: 'GET',
             headers: {
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     profileForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const currentUsername = localStorage.getItem('username');
+        const currentUsername = sessionStorage.getItem('username');
         const newUsername = usernameField.value;
         const email = emailField.value || null; // Set to null if empty
         const phone = phoneField.value || null; // Set to null if empty
@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 alert(data.message);
 
-                // Update localStorage if the username was changed
+                // Update sessionStorage if the username was changed
                 if (newUsername !== currentUsername) {
-                    localStorage.setItem('username', newUsername);
+                    sessionStorage.setItem('username', newUsername);
                 }
             } else {
                 alert(data.message); // Show error message if username already exists or other issues
@@ -79,3 +79,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
+
