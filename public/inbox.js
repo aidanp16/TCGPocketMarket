@@ -16,6 +16,18 @@ socket.on('disconnect', () => {
 let currentUser = sessionStorage.getItem("username") || "DefaultUser"; // Replace with real logic
 let recipientUser = ""; // Dynamically set when validated
 
+// Pre-fill recipient if redirected from a trade
+document.addEventListener('DOMContentLoaded', () => {
+  const prefilledRecipient = sessionStorage.getItem('recipient');
+  if (prefilledRecipient) {
+      document.getElementById('recipientUsername').value = prefilledRecipient;
+      document.getElementById('validationMessage').textContent = `User "${prefilledRecipient}" is valid.`;
+      document.getElementById('validationMessage').style.color = "green";
+      recipientUser = prefilledRecipient; // Set recipientUser for messaging
+      sessionStorage.removeItem('recipient'); // Clear the prefilled recipient
+  }
+});
+
 // Validate the recipient's username
 document.getElementById('validateRecipient').addEventListener('click', () => {
   const usernameInput = document.getElementById('recipientUsername').value.trim();

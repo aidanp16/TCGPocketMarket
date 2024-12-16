@@ -71,6 +71,23 @@ app.post('/create-trade', async (req, res) => {
   }
 });
 
+app.delete('/remove-trade', async (req, res) => {
+  const { tradeId, username } = req.body;
+
+  try {
+      // Find and delete the trade if it belongs to the user
+      const result = await Trade.deleteOne({ _id: tradeId, username: username });
+      if (result.deletedCount === 1) {
+          res.status(200).json({ message: 'Trade removed successfully' });
+      } else {
+          res.status(404).json({ message: 'Trade not found or unauthorized' });
+      }
+  } catch (error) {
+      console.error('Error removing trade:', error);
+      res.status(500).json({ message: 'Failed to remove trade' });
+  }
+});
+
 // Route to get all trades
 app.get('/all-trades', async (req, res) => {
   try {
