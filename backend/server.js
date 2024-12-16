@@ -49,6 +49,49 @@ const messageSchema = new mongoose.Schema({
 });
 const Message = mongoose.model('Message', messageSchema);
 
+// Trade schema
+const tradeSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  cardName: { type: String, required: true },
+  lookingFor: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Trade = mongoose.model('Trade', tradeSchema);
+
+// Route to create a new trade
+app.post('/create-trade', async (req, res) => {
+  const { username, cardName, lookingFor } = req.body;
+  try {
+      const newTrade = new Trade({ username, cardName, lookingFor });
+      await newTrade.save();
+      res.status(201).json({ message: "Trade created successfully" });
+  } catch (error) {
+      res.status(500).json({ message: "Error creating trade", error });
+  }
+});
+
+// Route to get all trades
+app.get('/all-trades', async (req, res) => {
+  try {
+      const trades = await Trade.find();
+      res.json(trades);
+  } catch (error) {
+      res.status(500).json({ message: "Error fetching trades", error });
+  }
+});
+
+// Route to get trades by a user
+app.get('/user-trades', async (req, res) => {
+  const { username } = req.query;
+  try {
+      const trades = await Trade.find({ username });
+      res.json(trades);
+  } catch (error) {
+      res.status(500).json({ message: "Error fetching user trades", error });
+  }
+});
+
 // API endpoint to fetch messages between two users
 app.get('/messages', async (req, res) => {
   const { user1, user2 } = req.query;
