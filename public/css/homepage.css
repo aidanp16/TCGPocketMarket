@@ -1,88 +1,189 @@
 /* Homepage Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
 .homepage .banner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: grey;
+    padding: 20px 40px;
+    background-color: #007bff;
     color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .homepage .logo {
     height: 50px;
 }
 
-/* Center the Navigation Links */
 .homepage .navigation {
     display: flex;
-    gap: 20px;
-    margin: 0 auto; /* Center the navigation */
+    gap: 25px;
+    margin-right: auto; /* Align links in the center */
 }
 
-/* Tab Links */
 .homepage .tab {
     color: white;
     text-decoration: none;
-    font-size: 16px;
-    padding: 10px;
-    transition: background-color 0.3s;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .homepage .tab:hover {
-    background-color: #555;
-    border-radius: 5px;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
-/* Profile and Inbox Links Group */
-.homepage .auth-links {
+.homepage .auth-buttons {
     display: flex;
     align-items: center;
+    gap: 15px;
 }
 
-/* Add margin to Inbox Button */
-#inbox-btn {
-    margin-right: 15px; /* Adds space between Inbox and Profile */
-}
-
-/* Welcome Banner Section for Homepage */
+/* Welcome Banner Section */
 .homepage .welcome-banner {
     text-align: center;
-    padding: 60px 20px;
-    background-color: #f8f9fa;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .homepage .welcome-banner h1 {
-    font-size: 36px;
-    color: #333;
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .homepage .welcome-banner p {
-    font-size: 18px;
-    color: #666;
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 40px;
 }
 
-/* Button Styles */
-button, .login-btn, .register-btn, .home-button, #profile-btn, #inbox-btn {
-    background-color: #007bff;
+.homepage .welcome-banner .cta-button {
+    display: inline-block;
+    background-color: white;
+    color: #007bff;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.homepage .welcome-banner .cta-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* Content Section */
+.homepage .content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.homepage .content h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.homepage .content p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.homepage .content .features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.homepage .content .feature {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(33.33% - 40px);
+    max-width: 300px;
+    text-align: left;
+}
+
+.homepage .content .feature h3 {
+    font-size: 20px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.homepage .content .feature p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Footer */
+.homepage .footer {
+    background-color: #333;
     color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+/* Common Button Styles */
+.auth-buttons .login-btn,
+.auth-buttons .register-btn,
+#inbox-btn,
+#profile-btn {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
     border: none;
     border-radius: 4px;
-    padding: 8px 16px;
+    padding: 8px 16px; /* Consistent button size */
     font-size: 16px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    text-decoration: none; /* Remove underline */
+    cursor: pointer; /* Pointer cursor for clickable elements */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
 }
 
-button:hover, .login-btn:hover, .register-btn:hover, .home-button:hover, #profile-btn:hover, #inbox-btn:hover {
-    background-color: #0056b3;
+/* Hover Styles for All Buttons */
+.auth-buttons .login-btn:hover,
+.auth-buttons .register-btn:hover,
+#inbox-btn:hover,
+#profile-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
 }
 
-/* Home Button */
-.home-button {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 14px;
-    padding: 8px 16px;
+/* Auth Buttons Container */
+.auth-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    align-items: center;
+}
+
+/* Specific Display Settings */
+.auth-buttons .login-btn,
+.auth-buttons .register-btn {
+    display: inline-block;
+}
+
+#inbox-btn,
+#profile-btn {
+    display: none; /* Hidden by default */
 }
